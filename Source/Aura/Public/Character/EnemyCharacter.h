@@ -15,11 +15,15 @@ class AURA_API AEnemyCharacter : public ACharacterBase, public IActorHighlightIn
 {
 	GENERATED_BODY()
 
-	virtual void Highlight() override;
-	virtual void UnHighlight() override;
+	
 
 public:
 
+	virtual void Highlight() override;
+	virtual void UnHighlight() override;
+
+	virtual void BeginPlay() override;
+	
 	AEnemyCharacter();
 	
 };
