@@ -4,6 +4,7 @@
 #include "Character/PlayerCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
@@ -23,28 +24,39 @@ APlayerCharacter::APlayerCharacter()
 	
 }
 
+int32 APlayerCharacter::GetPlayerLevel()
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetPlayerLevel();
+}
+
 void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
-	initAbilityActorInfo();
+	InitAbilityActorInfo();
 }
 
 void APlayerCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
-	initAbilityActorInfo();
+	InitAbilityActorInfo();
 }
 
-void APlayerCharacter::initAbilityActorInfo()
+void APlayerCharacter::InitAbilityActorInfo()
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
+	Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
-
-	AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(GetController());
-	AAuraHUD* AuraHUD = Cast<AAuraHUD>(PlayerController->GetHUD());
-	AuraHUD->InitOverlayWidget(AuraPlayerState,PlayerController,AttributeSet,AbilitySystemComponent);
-	
+	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
+		{
+			AuraHUD->InitOverlayWidget(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
+		}
+	}
+	InitializeDefaultAttributes();
 }

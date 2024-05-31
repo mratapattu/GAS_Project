@@ -4,9 +4,9 @@
 #include "UI/AuraUserWidget.h"
 
 
-void UAuraUserWidget::SetWidgetController(UObject* InWidget)
+void UAuraUserWidget::SetWidgetController(UObject* InWidgetController)
 {
-	WidgetController = InWidget;
+	WidgetController = InWidgetController;
 	OnWidgetControllerSet();
 }
 

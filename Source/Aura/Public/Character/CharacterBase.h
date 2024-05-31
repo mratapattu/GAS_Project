@@ -4,33 +4,47 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "GameplayEffect.h"
 #include "GameFramework/Character.h"
+#include "Interaction/CombatInterface.h"
 #include "CharacterBase.generated.h"
 
 class UAbilitySystemComponent;
 class UAttributeSet;
 
 UCLASS()
-class AURA_API ACharacterBase : public ACharacter, public IAbilitySystemInterface
+class AURA_API ACharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 
 public:
 	ACharacterBase();
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+
+	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEfectClass, float level);
+	void InitializeDefaultAttributes();
 
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void InitAbilityActorInfo();
+	
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY()
-	UAbilitySystemComponent* AbilitySystemComponent;
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
-	UAttributeSet* AttributeSet;
+	TObjectPtr<UAttributeSet> AttributeSet;
 
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
 
-	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 };

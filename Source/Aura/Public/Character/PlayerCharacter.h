@@ -17,11 +17,14 @@ class AURA_API APlayerCharacter : public ACharacterBase
 public:
 	APlayerCharacter();
 
+	virtual int32 GetPlayerLevel() override;
+
 protected:
 
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 
-	void initAbilityActorInfo();
+private:
+	virtual void InitAbilityActorInfo() override;
 	
 };
