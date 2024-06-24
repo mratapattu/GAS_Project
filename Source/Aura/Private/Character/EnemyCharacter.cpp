@@ -18,7 +18,7 @@ AEnemyCharacter::AEnemyCharacter()
 	
 }
 
-void AEnemyCharacter::Highlight()
+void AEnemyCharacter::HighlightActor()
 {
 	GetMesh()->SetRenderCustomDepth(true);
 	GetMesh()->SetCustomDepthStencilValue(HIGHLIGHT_CUSTOM_DEPTH);
@@ -27,7 +27,7 @@ void AEnemyCharacter::Highlight()
 	
 }
 
-void AEnemyCharacter::UnHighlight()
+void AEnemyCharacter::UnHighlightActor()
 {
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);

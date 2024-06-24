@@ -1,7 +1,7 @@
 // Copyright MNL Games
 
 
-#include "Character/PlayerCharacter.h"
+#include "..\..\Public\Character\AuraCharacter.h"
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
@@ -31,12 +31,15 @@ int32 APlayerCharacter::GetPlayerLevel()
 	return AuraPlayerState->GetPlayerLevel();
 }
 
+// on server
 void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	InitAbilityActorInfo();
+	AddCharacterAbilities();
 }
 
+// on client
 void APlayerCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();

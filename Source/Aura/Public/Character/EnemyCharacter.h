@@ -19,8 +19,8 @@ class AURA_API AEnemyCharacter : public ACharacterBase, public IActorHighlightIn
 
 public:
 
-	virtual void Highlight() override;
-	virtual void UnHighlight() override;
+	virtual void HighlightActor() override;
+	virtual void UnHighlightActor() override;
 
 	virtual int32 GetPlayerLevel() override;
 

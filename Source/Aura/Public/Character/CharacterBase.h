@@ -25,6 +25,11 @@ public:
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEfectClass, float level);
 	void InitializeDefaultAttributes();
 
+	UPROPERTY(EditAnywhere)
+	FName WeaponTipSocketName;
+	
+	virtual FVector GetCombatSocketLocation() override;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -47,4 +52,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+
+	void AddCharacterAbilities();
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	TArray<TSubclassOf<UGameplayAbility>> GameplayAbilities;
+	
 };

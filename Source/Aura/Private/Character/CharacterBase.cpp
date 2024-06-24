@@ -4,6 +4,7 @@
 #include "Character/CharacterBase.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 
 ACharacterBase::ACharacterBase()
 {
@@ -41,8 +42,21 @@ void ACharacterBase::InitializeDefaultAttributes()
 	ApplyEffectToSelf(DefaultVitalAttributes,1.f);
 }
 
+FVector ACharacterBase::GetCombatSocketLocation()
+{
+	check(Weapon);
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
 void ACharacterBase::InitAbilityActorInfo()
 {
+}
+
+void ACharacterBase::AddCharacterAbilities()
+{
+	UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	check(AuraASC);
+	AuraASC->AddCharacterAbilities(GameplayAbilities);
 }
 
 UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
